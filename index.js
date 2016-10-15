@@ -18,13 +18,13 @@ module.exports = function createTypes(...types) {
       const val = obj[key];
 
       // Only deal with string access, no Symbols.
-      if (typeof key !== 'string') {
+      if (inProduction || typeof key !== 'string') {
         return val;
       }
 
       // Inspect appears to be a Node property that is checked when you try
       // to log the object.
-      if (!inProduction && key !== 'inspect' && !val) {
+      if (key !== 'inspect' && !val) {
         throw new Error(`${key} is an invalid action type`);
       }
 
@@ -61,5 +61,5 @@ module.exports = function createTypes(...types) {
   return TYPES;
 };
 
-// Allows the outside user
+// Allows the outside user to clear the global cache state.
 module.exports.clearGlobalCache = () => GLOBAL_CACHE.clear();

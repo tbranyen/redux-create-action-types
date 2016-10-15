@@ -1,9 +1,12 @@
-Redux: Easily Create Redux Action Types
----------------------------------------
+Create Redux Action Types: Safely & Easily
+------------------------------------------
 
 [![Build Status](https://travis-ci.org/tbranyen/redux-create-types.svg?branch=add-in-travis)](https://travis-ci.org/tbranyen/redux-create-types)
 
 ## Motiviation
+
+You write Redux boilerplate every-single-day and this is a tool to hopefully
+make one facet of it easier.
 
 One of the interesting design decisions around Redux, to me, was that it used
 plain strings as action type identifiers. This decision is not strictly
@@ -20,31 +23,46 @@ very tedious to write out. You typically want to export them with the same name
 they represent, which incurs twice the typing. For instance: `export const
 MY_ACTION_TYPE = 'MY_ACTION_TYPE';`
 
-There are many common solutions to this problem, which I'll outline quickly
-below:
+There are many common solutions to some of these problems, which I'll outline
+below, but no solution (that I'm aware of) that provides the beneficial niche
+features:
 
 ### Symbols
 
 Symbols are string-like objects in JavaScript that are guarenteed unique, work
-well with `switch` statements, are easy to write, and are serialized to plain
-text strings. They seem like the perfect & ideal match for this use case.
+well with `switch` statements, are easy to write, and can serialize to plain
+text strings. They seem like the perfect & ideal match for this use case. While
+they break down with the same limitations of strings in terms of verbosity,
+they really break down when it comes to Redux middleware (logger needs a
+special serializer) and with being able to playback your actions from a saved
+session (no way to deserialize back into the correct Symbol).
 
-### keykey
+### [keykey](https://github.com/jameswomack/keykey)
 
-A Node module that helps with the tediousness of 
+A Node module that helps with the tediousness of defining mirrored key/value
+pairs on an object. It works really well, but suffers from not throwing during
+development when you access non-existent keys.
 
 ## What this module does for you
 
 - Provides a very clear way of definining multiple action types
-- In development, will warn you about accessing types that were not previously declared
-- In development, will warn you about using the same type more than once
+
+- In development, will throw when accessing types that were not previously declared
+- In development, will throw when using the same type more than once
+- In development, will throw when assigning a non-string type
+- In development, will throw when assigning anything to the types object
+
+- In production, silences all errors and does nothing fancy other than a single
+  loop that turns your strings into key/values on a plain object.
 
 ## How to use
 
-Before using, you'll need to install via npm:
+Before using, you'll need to install via [npm](https://npmjs.com) or
+[yarn](https://yarnpkg.com):
 
 ``` sh
 npm install redux-create-types
+yarn install redux-create-types
 ```
 
 Then you can import using ES Modules:
@@ -67,4 +85,14 @@ const Types = createTypes(
   'FETCHED_RESOURCE',
   'FAILED_FETCHING_RESOURCE'
 );
+```
+
+For all intents, it will return a plain object that looks like this:
+
+``` js
+{
+  'FETCHING_RESOURCE': 'FETCHING_RESOURCE',
+  'FETCHED_RESOURCE': 'FETCHED_RESOURCE',
+  'FAILED_FETCHING_RESOURCE': 'FAILED_FETCHING_RESOURCE',
+}
 ```
