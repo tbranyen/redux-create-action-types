@@ -21,13 +21,13 @@ introduce very strange behavior in your reducers when two actions are
 dispatched with the same type, but different action payloads. Lastly, they are
 very tedious to write out. You typically want to export them with the same name
 they represent, which incurs twice the typing. For instance: `export const
-MY_ACTION_TYPE = 'MY_ACTION_TYPE';`
+MY_ACTION_TYPE = 'MY_ACTION_TYPE'`
 
 There are many common solutions to some of these problems, which I'll outline
 below, but no solution (that I'm aware of) that provides the beneficial niche
 features:
 
-### Symbols
+### [Symbols](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol)
 
 Symbols are string-like objects in JavaScript that are guarenteed unique, work
 well with `switch` statements, are easy to write, and can serialize to plain
@@ -68,13 +68,13 @@ yarn install redux-create-types
 Then you can import using ES Modules:
 
 ``` js
-import createTypes from 'redux-create-types';
+import createTypes from 'redux-create-types'
 ```
 
 or CJS, if you like:
 
 ``` js
-const createTypes = require('redux-create-types');
+const createTypes = require('redux-create-types')
 ```
 
 Now you can create your types objects:
@@ -84,7 +84,7 @@ const Types = createTypes(
   'FETCHING_RESOURCE',
   'FETCHED_RESOURCE',
   'FAILED_FETCHING_RESOURCE'
-);
+)
 ```
 
 For all intents, it will return a plain object that looks like this:
@@ -96,3 +96,75 @@ For all intents, it will return a plain object that looks like this:
   'FAILED_FETCHING_RESOURCE': 'FAILED_FETCHING_RESOURCE',
 }
 ```
+
+## Eliminate `undefined` types
+
+The special features of this module are only noticeable during development. For
+instance if you were writing a reducer and tried to access a type that was
+never defined before:
+
+``` js
+// This would be defined in another file...
+const Types = createTypes(
+  'FETCHING_RESOURCE',
+  'FETCHED_RESOURCE',
+  'FAILED_FETCHING_RESOURCE'
+)
+
+// A typically reducer.
+function resource(state = {}, action) {
+  switch (action.type) {
+    case Types.FETCHING_SOME_RESOURCE: {
+      return Object.assign({}, state, action)
+    }
+
+    default: { return state }
+  }
+}
+```
+
+The above will throw an error in development, because you've tried to access a
+property that was never defined. Had you not used this, it's possible for an
+undefined type to match your case check and put your app into an inconsistent
+state.
+
+## Prevent duplicate values
+
+While keykey and this module make it easy to keep your key and values
+consistent, the same can not be said with simple objects. The following will
+show how this module prevents duplicate values:
+
+``` js
+const Types = createTypes(
+  "TYPE_ONE"
+);
+
+// Produces: { "TYPE_ONE": "TYPE_ONE" }
+```
+
+If you attempt to modify this value, not that you would, but mistakes happen:
+
+``` js
+Types.TYPE_ONE = 'TYPE_TWO';
+```
+
+This will immediately error in development, letting you know something tried to
+assign to this object. Since this module uses a new JavaScript feature, called
+proxies, it can prevent all property setting behind an exception being thrown.
+
+Another way this prevents duplicates is through use of a global cache:
+
+``` js
+// In one file...
+const Types = createTypes(
+  "TYPE_ONE"
+);
+
+// In another file...
+const Types = createTypes(
+  "TYPE_ONE"
+);
+```
+
+The above will error as you have already used a type, and the system will not
+let you reuse it, since your actions are dispatched to all reducers.
