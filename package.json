@@ -1,0 +1,17 @@
+{
+  "name": "redux-create-types",
+  "version": "1.0.0",
+  "description": "Easily create immutable, strict, and well formed action types",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "redux"
+  ],
+  "author": "Tim Branyen (@tbranyen)",
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^3.1.2"
+  }
+}
