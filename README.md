@@ -1,6 +1,8 @@
 Redux: Easily Create Redux Action Types
 ---------------------------------------
 
+[![Build Status](https://travis-ci.org/tbranyen/redux-create-types.svg?branch=add-in-travis)](https://travis-ci.org/tbranyen/redux-create-types)
+
 ## Motiviation
 
 One of the interesting design decisions around Redux, to me, was that it used
