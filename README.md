@@ -5,8 +5,16 @@ Create Redux Action Types: Safely & Easily
 
 ## Motiviation
 
-You write Redux boilerplate every-single-day and this is a tool to hopefully
-make one facet of it easier.
+You write Redux boilerplate every-single-day and this sucks.
+
+``` js
+export FETCHING_RESOURCE_FRAMES = 'FETCHING_RESOURCE_FRAMES';
+export FAILED_FETCHING_RESOURCE_FRAMES = 'FAILED_FETCHING_RESOURCE_FRAMES';
+export FETCHED_RESOURCE_FRAMES = 'FETCHED_RESOURCE_FRAMES';
+export FETCHING_RESOURCE_IMAGE = 'FETCHING_RESOURCE_IMAGE';
+export FAILED_FETCHING_RESOURCE_IMAGE = 'FAILED_FETCHING_RESOURCE_IMAGE';
+export FETCHED_RESOURCE_IMAGE = 'FETCHED_RESOURCE_IMAGE';
+```
 
 One of the interesting design decisions around Redux, to me, was that it used
 plain strings as action type identifiers. This decision is not strictly
