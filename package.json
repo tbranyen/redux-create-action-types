@@ -1,5 +1,5 @@
 {
-  "name": "redux-create-types",
+  "name": "redux-create-action-types",
   "version": "1.0.0",
   "description": "Easily create immutable, strict, and well formed action types",
   "main": "index.js",

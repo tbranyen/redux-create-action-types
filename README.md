@@ -1,5 +1,7 @@
-Create Redux Action Types: Safely & Easily
-------------------------------------------
+redux-create-action-types
+-------------------------
+
+Helps you create Redux action types, safely & easily
 
 [![Build Status](https://travis-ci.org/tbranyen/redux-create-types.svg?branch=add-in-travis)](https://travis-ci.org/tbranyen/redux-create-types)
 
@@ -69,20 +71,21 @@ Before using, you'll need to install via [npm](https://npmjs.com) or
 [yarn](https://yarnpkg.com):
 
 ``` sh
-npm install redux-create-types
-yarn install redux-create-types
+# Sorry for the long names, but I was late to the party...
+npm install redux-create-action-types
+yarn install redux-create-action-types
 ```
 
 Then you can import using ES Modules:
 
 ``` js
-import createTypes from 'redux-create-types'
+import createTypes from 'redux-create-action-types'
 ```
 
 or CJS, if you like:
 
 ``` js
-const createTypes = require('redux-create-types')
+const createTypes = require('redux-create-action-types')
 ```
 
 Now you can create your types objects:
