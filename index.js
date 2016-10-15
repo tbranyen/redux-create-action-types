@@ -1,24 +1,40 @@
 const GLOBAL_CACHE = new Set();
-const inProduction = process.env.NODE_ENV === 'production';
 
 // Creates type definitions that are immutable (frozen) and throw when
 // properties are accessed that do not exist.
 module.exports = function createTypes(...types) {
-  if (types.length === 0) {
+  const inProduction = process.env.NODE_ENV === 'production';
+
+  // Will only error in development, not production.
+  if (!inProduction && types.length === 0) {
     throw new Error('Must specify at least one type');
   }
 
-  // In production we do not want the performance bottleneck from the Proxy,
-  // even if it's mostly negligible.
-  const TYPES = inProduction ? {} : new Proxy({}, {
-    get: function(o, type) {
-      if (typeof type === 'string' && type !== 'inspect'  && !o[type]) {
-        throw new Error(`${type} is an invalid action type`);
+  // This is a proxy handler object that will be used in development to control
+  // how the types object is used. This is not meant to limit the user, but to
+  // empower them to write functional code.
+  const handler = {
+    get(obj, key) {
+      const val = obj[key];
+
+      // Only deal with string access, no Symbols.
+      if (typeof key !== 'string') {
+        return val;
       }
 
-      return o[type];
+      // Inspect appears to be a Node property that is checked when you try
+      // to log the object.
+      if (!inProduction && key !== 'inspect' && !val) {
+        throw new Error(`${key} is an invalid action type`);
+      }
+
+      return val;
     }
-  });
+  };
+
+  // In production we do not want the performance bottleneck from the Proxy,
+  // even if it's mostly negligible.
+  const TYPES = inProduction ? {} : new Proxy({}, handler);
 
   // Copy each type into the returned object and add into the global cache. If
   // we come across a duplicate, throw an error, but not in production.
@@ -27,7 +43,7 @@ module.exports = function createTypes(...types) {
       throw new Error(`${type} has already been defined as an action type`);
     }
 
-    if (typeof type !== 'string') {
+    if (!inProduction && typeof type !== 'string') {
       throw new Error(`${type} is of an invalid type, expected string`);
     }
 
@@ -35,5 +51,15 @@ module.exports = function createTypes(...types) {
     GLOBAL_CACHE.add(type);
   });
 
-  return Object.freeze(TYPES);
+  // We set the `set` hook after we initially set our properties, this seals
+  // the object in a way that `Object.freeze` cannot (unless the source code is
+  // in strict mode, which is not a guarentee).
+  handler.set = (o, k) => {
+    throw new Error(`Failed setting ${k}, object is frozen`);
+  };
+
+  return TYPES;
 };
+
+// Allows the outside user
+module.exports.clearGlobalCache = () => GLOBAL_CACHE.clear();
