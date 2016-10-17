@@ -3,7 +3,7 @@ redux-create-action-types
 
 Helps you create Redux action types, safely & easily
 
-[![Build Status](https://travis-ci.org/tbranyen/redux-create-types.svg?branch=add-in-travis)](https://travis-ci.org/tbranyen/redux-create-types)
+[![Build Status](https://travis-ci.org/tbranyen/redux-create-action-types.svg?branch=master)](https://travis-ci.org/tbranyen/redux-create-action-types)
 
 ## Motiviation
 
