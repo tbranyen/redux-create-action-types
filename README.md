@@ -47,7 +47,7 @@ they really break down when it comes to Redux middleware (logger needs a
 special serializer) and with being able to playback your actions from a saved
 session (no way to deserialize back into the correct Symbol).
 
-### [keykey](https://github.com/jameswomack/keykey)
+### [keyMirror](https://github.com/STRML/keyMirror)
 
 A Node module that helps with the tediousness of defining mirrored key/value
 pairs on an object. It works really well, but suffers from not throwing during
@@ -141,7 +141,7 @@ state.
 
 ## Prevent duplicate values
 
-While keykey and this module make it easy to keep your key and values
+While keyMirror and this module make it easy to keep your key and values
 consistent, the same can not be said with simple objects. The following will
 show how this module prevents duplicate values:
 
