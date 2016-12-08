@@ -5,7 +5,7 @@
   "main": "dist/redux-create-action-types.js",
   "scripts": {
     "test": "mocha",
-    "build": "browserify -t babelify --no-builtins -s ReactTypes index.js -o dist/redux-create-action-types.js"
+    "build": "browserify -t babelify --no-builtins -s ReactTypes index.js | derequire > dist/redux-create-action-types.js"
   },
   "keywords": [
     "redux"
@@ -21,6 +21,7 @@
     "babel-preset-latest": "^6.16.0",
     "babelify": "^7.3.0",
     "browserify": "^13.1.1",
+    "derequire": "^2.0.3",
     "mocha": "^3.1.2"
   }
 }
