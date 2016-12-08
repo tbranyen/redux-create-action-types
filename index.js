@@ -1,4 +1,5 @@
 const GLOBAL_CACHE = new Set();
+const hasProxy = typeof Proxy !== 'undefined';
 
 // Creates type definitions that are immutable (frozen) and throw when
 // properties are accessed that do not exist.
@@ -37,8 +38,9 @@ module.exports = function createTypes(...types) {
   };
 
   // In production we do not want the performance bottleneck from the Proxy,
-  // even if it's mostly negligible.
-  const TYPES = inProduction ? {} : new Proxy({}, handler);
+  // even if it's mostly negligible. If the user does not have a Proxy
+  // implementation, default to plain object.
+  const TYPES = inProduction || !hasProxy ? {} : new Proxy({}, handler);
 
   // Copy each type into the returned object and add into the global cache. If
   // we come across a duplicate, throw an error, but not in production.
