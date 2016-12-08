@@ -5,7 +5,7 @@ Helps you create Redux action types, safely & easily
 
 [![Build Status](https://travis-ci.org/tbranyen/redux-create-action-types.svg?branch=master)](https://travis-ci.org/tbranyen/redux-create-action-types)
 
-## Motiviation
+## Motivation
 
 You write Redux boilerplate every-single-day and this sucks.
 
@@ -24,8 +24,8 @@ imposed, but it does offer good serialization/deserialization, visual clues,
 and works very well inside `switch` statements which are a defining trait of
 Redux reducers.
 
-The downsides of strings are that they are completely freeform and not
-validated in any way besides your unit tests. Nothing guarentees your types
+The downsides of strings are that they are completely free-form and not
+validated in any way besides your unit tests. Nothing guarantees your types
 will be unique (except for you and your well coordinated team), and this could
 introduce very strange behavior in your reducers when two actions are
 dispatched with the same type, but different action payloads. Lastly, they are
@@ -39,7 +39,7 @@ features:
 
 ### [Symbols](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol)
 
-Symbols are string-like objects in JavaScript that are guarenteed unique, work
+Symbols are string-like objects in JavaScript that are guaranteed unique, work
 well with `switch` statements, are easy to write, and can serialize to plain
 text strings. They seem like the perfect & ideal match for this use case. While
 they break down with the same limitations of strings in terms of verbosity,
@@ -55,7 +55,7 @@ development when you access non-existent keys.
 
 ## What this module does for you
 
-- Provides a very clear way of definining multiple action types
+- Provides a very clear way of defining multiple action types
 
 - In development, will throw when accessing types that were not previously declared
 - In development, will throw when using the same type more than once
