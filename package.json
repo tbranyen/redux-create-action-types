@@ -1,6 +1,6 @@
 {
   "name": "redux-create-action-types",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "Easily create immutable, strict, and well formed action types",
   "main": "dist/redux-create-action-types.js",
   "scripts": {
