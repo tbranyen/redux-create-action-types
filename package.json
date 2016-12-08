@@ -1,17 +1,26 @@
 {
   "name": "redux-create-action-types",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Easily create immutable, strict, and well formed action types",
-  "main": "index.js",
+  "main": "dist/redux-create-action-types.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "build": "browserify -t babelify --no-builtins -s ReactTypes index.js -o dist/redux-create-action-types.js"
   },
   "keywords": [
     "redux"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tbranyen/redux-create-action-types.git"
+  },
   "author": "Tim Branyen (@tbranyen)",
   "license": "MIT",
   "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-preset-latest": "^6.16.0",
+    "babelify": "^7.3.0",
+    "browserify": "^13.1.1",
     "mocha": "^3.1.2"
   }
 }

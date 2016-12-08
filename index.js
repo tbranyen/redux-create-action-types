@@ -3,7 +3,11 @@ const GLOBAL_CACHE = new Set();
 // Creates type definitions that are immutable (frozen) and throw when
 // properties are accessed that do not exist.
 module.exports = function createTypes(...types) {
-  const inProduction = process.env.NODE_ENV === 'production';
+  const glob = typeof window !== 'undefined' ? window : global;
+  const { NODE_ENV } = glob['process'] ? glob['process'].env : {
+    NODE_ENV: 'development',
+  };
+  const inProduction = NODE_ENV === 'production';
 
   // Will only error in development, not production.
   if (!inProduction && types.length === 0) {
